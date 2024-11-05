@@ -1,0 +1,50 @@
+Approach:
+
+Finding the middle.
+Reversing the second half.
+Comparing the first and second halves, as described in the optimal solution.
+
+boolean checkPalindrome(Node head) {
+    if (head == null || head.next == null) {
+        return true; // An empty or single-node list is a palindrome
+    }
+
+    // Step 1: Find the middle of the list
+    Node slow = head;
+    Node fast = head;
+    while (fast != null && fast.next != null) {
+        slow = slow.next;
+        fast = fast.next.next;
+    }
+
+    // Step 2: Reverse the second half of the list
+    Node secondHalf = reverseList(slow);
+
+    // Step 3: Compare the first half with the reversed second half
+    Node firstHalf = head;
+    Node tempSecondHalf = secondHalf; // To restore the list if needed
+    while (secondHalf != null) {
+        if (firstHalf.value != secondHalf.value) {
+            return false; // Not a palindrome
+        }
+        firstHalf = firstHalf.next;
+        secondHalf = secondHalf.next;
+    }
+
+    // (Optional) Step 4: Restore the original list
+    reverseList(tempSecondHalf);
+
+    return true;
+}
+
+// Helper function to reverse a linked list
+Node reverseList(Node head) {
+    Node prev = null;
+    while (head != null) {
+        Node next = head.next;
+        head.next = prev;
+        prev = head;
+        head = next;
+    }
+    return prev;
+}
