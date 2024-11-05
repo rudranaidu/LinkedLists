@@ -1,0 +1,42 @@
+public Node mergeTwoSortedLists(Node head1, Node head2) {
+    // Base cases
+    if (head1 == null) {
+        return head2;
+    } else if (head2 == null) {
+        return head1;
+    }
+
+    // Initialize a new head for the merged list
+    Node newHead;
+    if (head1.value <= head2.value) {
+        newHead = head1;
+        head1 = head1.next;
+    } else {
+        newHead = head2;
+        head2 = head2.next;
+    }
+
+    // Pointer to track the end of the merged list
+    Node current = newHead;
+
+    // Merge the lists by comparing nodes
+    while (head1 != null && head2 != null) {
+        if (head1.value <= head2.value) {
+            current.next = head1;
+            head1 = head1.next;
+        } else {
+            current.next = head2;
+            head2 = head2.next;
+        }
+        current = current.next; // Move to the next node in the merged list
+    }
+
+    // Attach the remaining nodes from either list
+    if (head1 != null) {
+        current.next = head1;
+    } else if (head2 != null) {
+        current.next = head2;
+    }
+
+    return newHead;
+}
