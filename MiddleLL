@@ -25,27 +25,20 @@ class Node {
 }
 
 public class FindMiddleOfLinkedList {
-    
-    static Node findMiddle(Node head) {
-        // Initialize the slow pointer to the head.
-        Node slow = head; 
-        
-        // Initialize the fast pointer to the head.
-        Node fast = head;   
-
-        // Traverse the linked list using
-        // the Tortoise and Hare algorithm.
-        while (fast != null && fast.next != null && slow != null) {
-            // Move fast two steps.
-            fast = fast.next.next;  
-            // Move slow one step.
-            slow = slow.next;        
-        }
-        // Return the slow pointer,
-        // which is now at the middle node.
-        return slow;  
+    int findMiddle(Node head) {
+    if (head == null) {
+        return -1; // or handle as needed if the list is empty
     }
-
+    Node slow = head;
+    Node fast = head;
+    // Move 'fast' by 2 steps and 'slow' by 1 step
+    while (fast != null && fast.next != null) {
+        slow = slow.next;
+        fast = fast.next.next;
+    }
+    // 'slow' now points to the middle node
+    return slow.value;
+}
 
     public static void main(String[] args) {
         // Creating a sample linked list:
