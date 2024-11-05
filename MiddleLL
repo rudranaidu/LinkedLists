@@ -62,5 +62,30 @@ public class FindMiddleOfLinkedList {
         System.out.println("The middle node value is: " + middleNode.data);
     }
 }
-                                
-                            
+
+2nd approach:
+
+int findMiddle(Node head) {
+    int length = findLength(head);
+    int mid = length / 2; // No need to handle odd/even separately
+
+    return getRequiredNode(mid, head);
+}
+
+int findLength(Node head) {
+    int length = 0;
+    while (head != null) {
+        head = head.next;
+        length++;
+    }
+    return length;
+}
+
+int getRequiredNode(int requiredNode, Node head) {
+    while (requiredNode > 0 && head != null) {
+        head = head.next;
+        requiredNode--;
+    }
+    return head != null ? head.value : -1; // Handle case if 'requiredNode' is out of bounds
+}
+
