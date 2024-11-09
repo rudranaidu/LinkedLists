@@ -1,0 +1,18 @@
+
+Node findIntersectionOfTwoLists(Node head1, Node head2) {
+    if (head1 == null || head2 == null) {
+        return null;
+    }
+
+    Node p1 = head1;
+    Node p2 = head2;
+
+    // Traverse both lists; when either pointer reaches the end, switch to the other list's head
+    while (p1 != p2) {
+        p1 = (p1 == null) ? head2 : p1.next;
+        p2 = (p2 == null) ? head1 : p2.next;
+    }
+
+    // If p1 and p2 meet, that’s the intersection node, otherwise they will both be null
+    return p1; // This is either the intersection node or null if no intersection exists
+}
