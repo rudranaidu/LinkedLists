@@ -1,7 +1,7 @@
 https://www.youtube.com/watch?v=0JHQ26NQcPk
 use two pointers.
-first find which list is lengthier. then forward the pointer to difference of lengths
-Once two pointers are equal lenghts then forward both the pointers and compare the nodes. 
+First find which list is lengthier. then forward the pointer to difference of lengths
+Once two pointers are equal lengths then forward both the pointers and compare the nodes. 
 if there is any node equal then that node would become intersection point.
 
 Node findIntersection(Node head1, Node head2) {
