@@ -1,0 +1,85 @@
+### Problem: Sort a Linked List of 0s, 1s, and 2s
+
+#### Example
+Input: `0 -> 2 -> 1 -> 2 -> 0 -> 1 -> null`  
+Output: `0 -> 0 -> 1 -> 1 -> 2 -> 2 -> null`
+
+### Solution 1: Using an Auxiliary Data Structure
+
+1. Traverse the linked list and collect the values into an `ArrayList` or another collection.
+2. Sort the collection using a standard sorting algorithm.
+3. Rebuild the linked list from the sorted values.
+
+#### Time and Space Complexity:
+- **Time Complexity**: (O(n \log n)\) due to sorting the array.
+- **Space Complexity**: \(O(n)\) for the auxiliary data structure.
+
+#### Review:
+This approach is simple to implement but is **not optimal** because of the additional memory usage and sorting overhead.
+
+---
+
+### Solution 2: Counting Nodes of Each Value
+
+#### Steps:
+1. Traverse the linked list and count the occurrences of `0`, `1`, and `2`.
+2. Use these counts to overwrite the linked list values in the correct order.
+
+#### Time and Space Complexity:
+Time Complexity: (O(n) due to a single traversal and updating the list.
+Space Complexity: (O(1) as no additional data structures are used.
+
+Review:
+This approach is optimal for sorting but modifies the node values directly, which may not be allowed in some cases (e.g., if nodes are immutable or tied to external references).
+
+
+### Solution 3: Divide the List into Three Segments (Optimal Without Modifying Node Values)
+
+#### Steps:
+1. Initialize three dummy nodes: `zeroHead`, `oneHead`, `twoHead` to act as the heads of three sublists.
+2. Traverse the original linked list:
+   - Append each node to one of the three sublists based on its value.
+   - Maintain separate tail pointers (`zeroTail`, `oneTail`, `twoTail`) to avoid re-traversing.
+3. Connect the three sublists in order:  
+   `zeroTail -> oneHead.next -> twoHead.next`.
+4. Update the original head pointer to point to `zeroHead.next`.
+
+
+public static ListNode sortList(ListNode head) {
+    if (head == null || head.next == null) return head;
+
+    ListNode zeroHead = new ListNode(0), oneHead = new ListNode(0), twoHead = new ListNode(0);
+    ListNode zeroTail = zeroHead, oneTail = oneHead, twoTail = twoHead;
+
+    while (head != null) {
+        if (head.val == 0) {
+            zeroTail.next = head;
+            zeroTail = zeroTail.next;
+        } else if (head.val == 1) {
+            oneTail.next = head;
+            oneTail = oneTail.next;
+        } else {
+            twoTail.next = head;
+            twoTail = twoTail.next;
+        }
+        head = head.next;
+    }
+
+    // Connect the three lists
+    zeroTail.next = oneHead.next != null ? oneHead.next : twoHead.next;
+    oneTail.next = twoHead.next;
+    twoTail.next = null;
+
+    return zeroHead.next;
+}
+
+Time and Space Complexity:
+Time Complexity:  O(n) — single traversal and re-linking nodes.
+Space Complexity: O(1)— no auxiliary memory usage.
+
+#### Review:
+This approach is **best** for this problem because:
+1. It preserves the original nodes and only changes their links.
+2. It avoids additional memory usage for counting or sorting.
+3. The logic is straightforward and efficient.
+
