@@ -1,0 +1,31 @@
+
+1. Use two pointers, `first` and `second`.
+2. Move `first` \(n+1\) steps ahead to maintain a gap of \(n\) nodes between `first` and `second`.
+3. Traverse the list with both pointers until `first` reaches the end.
+4. `second` will be just before the \(n\)-th node from the end. Update the links to remove the node.
+
+boolean removeNthNodeFromEnd(Node head, int n) {
+    if (head == null || n <= 0) {
+        return false;
+    }
+
+    Node dummy = new Node(0); // Dummy node to handle edge cases
+    dummy.next = head;
+    Node first = dummy, second = dummy;
+
+    // Move `first` pointer n+1 steps ahead
+    for (int i = 0; i <= n; i++) {
+        if (first == null) return false; // n is greater than the length of the list
+        first = first.next;
+    }
+
+    // Move both pointers until `first` reaches the end
+    while (first != null) {
+        first = first.next;
+        second = second.next;
+    }
+
+    // Remove the nth node
+    second.next = second.next.next;
+    return true;
+}
