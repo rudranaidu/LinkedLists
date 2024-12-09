@@ -1,0 +1,81 @@
+
+O(n^2) solution
+
+
+import java.util.*;
+
+class Node {
+    int data;
+    Node next;
+
+    Node(int data) {
+        this.data = data;
+        this.next = null;
+    }
+}
+
+public class LinkedListPairs {
+
+    public static List<List<Integer>> findPairsWithSumK(Node head, int k) {
+        List<List<Integer>> result = new ArrayList<>();
+        if (head == null || head.next == null || k <= 0) {
+            return result; // Handle edge cases
+        }
+
+        Node temp1 = head;
+        while (temp1 != null) {
+            Node temp2 = temp1.next;
+            while (temp2 != null) {
+                int sum = temp1.data + temp2.data;
+                if (sum == k) {
+                    // Add the pair as a list
+                    result.add(Arrays.asList(temp1.data, temp2.data));
+                }
+                temp2 = temp2.next;
+            }
+            temp1 = temp1.next;
+        }
+
+        return result;
+    }
+
+    // Helper method to print the list
+    public static void printPairs(List<List<Integer>> pairs) {
+        for (List<Integer> pair : pairs) {
+            System.out.println(pair);
+        }
+    }
+
+    // Example usage
+    public static void main(String[] args) {
+        Node head = new Node(1);
+        head.next = new Node(2);
+        head.next.next = new Node(3);
+        head.next.next.next = new Node(4);
+        head.next.next.next.next = new Node(5);
+
+        int k = 5;
+
+        System.out.println("Pairs with sum " + k + ":");
+        List<List<Integer>> pairs = findPairsWithSumK(head, k);
+        printPairs(pairs);
+    }
+}
+
+O(n) solution:
+
+public static List<List<Integer>> findPairsWithSumKOptimized(Node head, int k) {
+    List<List<Integer>> result = new ArrayList<>();
+    Set<Integer> visited = new HashSet<>();
+    
+    Node current = head;
+    while (current != null) {
+        int complement = k - current.data;
+        if (visited.contains(complement)) {
+            result.add(Arrays.asList(complement, current.data));
+        }
+        visited.add(current.data);
+        current = current.next;
+    }
+    return result;
+}
