@@ -1,0 +1,93 @@
+https://www.youtube.com/watch?v=uT7YI7XbTY8&list=PLgUwDviBIf0rAuz8tVcM0AymmhTRsfaLU&index=24&ab_channel=takeUforward
+
+1) find length and tail nodes
+2) connect tail node to head
+3) find new head by iterating to length -k nodes
+4) set new head node next to null
+5) return new head node
+
+
+
+class Node {
+    int data;
+    Node next;
+
+    Node(int data) {
+        this.data = data;
+        this.next = null;
+    }
+}
+
+public class RotateLinkedList {
+    public static Node rotateListByK(Node head, int k) {
+        // Edge cases: empty list or no rotation needed
+        if (head == null || k <= 0) return head;
+
+        // Find the length of the list and the tail node
+        int len = 1;
+        Node tail = head;
+        while (tail.next != null) {
+            len++;
+            tail = tail.next;
+        }
+
+        // Normalize k to avoid unnecessary rotations
+        k = k % len;
+        if (k == 0) return head;
+
+        // Connect the tail to the head to form a circular list
+        tail.next = head;
+
+        // Find the new last node (len - k steps from the head)
+        Node newLastNode = findNthNode(head, len - k);
+
+        // Update head to the new starting node
+        head = newLastNode.next;
+
+        // Break the circular connection
+        newLastNode.next = null;
+
+        return head;
+    }
+
+    private static Node findNthNode(Node head, int n) {
+        Node temp = head;
+        int count = 1;
+
+        while (temp != null) {
+            if (count == n) return temp;
+            count++;
+            temp = temp.next;
+        }
+
+        // This should not be reached if the input is valid
+        return null;
+    }
+
+    // Helper function to print the linked list
+    public static void printList(Node head) {
+        Node current = head;
+        while (current != null) {
+            System.out.print(current.data + " -> ");
+            current = current.next;
+        }
+        System.out.println("null");
+    }
+
+    public static void main(String[] args) {
+        // Example usage
+        Node head = new Node(1);
+        head.next = new Node(2);
+        head.next.next = new Node(3);
+        head.next.next.next = new Node(4);
+        head.next.next.next.next = new Node(5);
+
+        System.out.println("Original List:");
+        printList(head);
+
+        head = rotateListByK(head, 2);
+
+        System.out.println("Rotated List:");
+        printList(head);
+    }
+}
