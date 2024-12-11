@@ -27,3 +27,32 @@ public boolean removeNode(Node head, Node node) {
     // If the node was not found
     return false;
 }
+
+You are given an array of integers nums and the head of a linked list. Return the head of the modified linked list after removing all nodes 
+from the linked list that have a value that exists in nums.
+
+public ListNode removeNodes(int[] nums, ListNode head) {
+        // Convert nums array to a HashSet for O(1) lookups
+        Set<Integer> set = new HashSet<>();
+        for (int num : nums) {
+            set.add(num);
+        }
+
+        // Create a dummy node to simplify head handling
+        ListNode dummy = new ListNode(-1);
+        dummy.next = head;
+        ListNode current = head;
+        ListNode prev = dummy;
+
+        // Traverse and remove nodes
+        while (current != null) {
+            if (set.contains(current.val)) {
+                prev.next = current.next;
+            } else {
+                prev = current;
+            }
+            current = current.next;
+        }
+
+        return dummy.next;
+    }
