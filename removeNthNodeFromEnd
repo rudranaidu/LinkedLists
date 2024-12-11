@@ -1,31 +1,42 @@
 
-1. Use two pointers, `first` and `second`.
-2. Move `first` \(n+1\) steps ahead to maintain a gap of \(n\) nodes between `first` and `second`.
-3. Traverse the list with both pointers until `first` reaches the end.
-4. `second` will be just before the \(n\)-th node from the end. Update the links to remove the node.
+Calculate Length of List
+Identify Position to Delete
+Handle Head Node Deletion
+raverse to the Node Before the Target
+Update Links to Remove Target Node
+Return the Modified List
 
-boolean removeNthNodeFromEnd(Node head, int n) {
+public ListNode removeNthFromEnd(ListNode head, int n) {
     if (head == null || n <= 0) {
-        return false;
+        return head; // Edge case: Invalid input
     }
 
-    Node dummy = new Node(0); // Dummy node to handle edge cases
-    dummy.next = head;
-    Node first = dummy, second = dummy;
+    int len = getLength(head); // Get the length of the list
+    int indexToDelete = len - n; // Position to delete from the start
 
-    // Move `first` pointer n+1 steps ahead
-    for (int i = 0; i <= n; i++) {
-        if (first == null) return false; // n is greater than the length of the list
-        first = first.next;
+    // If the head needs to be deleted
+    if (indexToDelete == 0) {
+        return head.next;
     }
 
-    // Move both pointers until `first` reaches the end
-    while (first != null) {
-        first = first.next;
-        second = second.next;
+    // Traverse to the node before the one to delete
+    ListNode current = head;
+    for (int i = 1; i < indexToDelete; i++) { // Traverse indexToDelete - 1 times
+        current = current.next;
     }
 
-    // Remove the nth node
-    second.next = second.next.next;
-    return true;
+    // Delete the nth node from the end
+    current.next = current.next.next;
+
+    return head;
+}
+
+private int getLength(ListNode head) {
+    int length = 0;
+    ListNode current = head;
+    while (current != null) {
+        length++;
+        current = current.next;
+    }
+    return length;
 }
