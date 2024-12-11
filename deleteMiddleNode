@@ -1,0 +1,26 @@
+class Solution {
+    public ListNode deleteMiddle(ListNode head) {
+        // Edge case: if the list is empty or has only one node
+        if (head == null || head.next == null) {
+            return null;
+        }
+
+        ListNode slowPointer = head;
+        ListNode fastPointer = head;
+        ListNode previous = null;
+
+        // Traverse the list to find the middle and its previous node
+        while (fastPointer != null && fastPointer.next != null) {
+            previous = slowPointer;
+            slowPointer = slowPointer.next;
+            fastPointer = fastPointer.next.next;
+        }
+
+        // Remove the middle node by skipping it
+        if (previous != null) {
+            previous.next = slowPointer.next;
+        }
+
+        return head;
+    }
+}
