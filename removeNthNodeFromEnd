@@ -2,7 +2,7 @@
 Calculate Length of List
 Identify Position to Delete
 Handle Head Node Deletion
-raverse to the Node Before the Target
+traverse to the Node Before the Target
 Update Links to Remove Target Node
 Return the Modified List
 
