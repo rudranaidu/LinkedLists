@@ -193,3 +193,37 @@ public class LinkedListLoopLength {
 }
     }
 }
+
+
+How to Find the Cycle Start Node (Full Explanation)
+
+Once a cycle is detected using Floyd's algorithm, do this:
+Keep one pointer at the meeting point (say slow).
+Move another pointer back to the head of the list.
+Move both pointers one step at a time.
+The point where they meet is the start of the cycle.
+
+Node detectCycleStart(Node head) {
+    if (head == null || head.next == null) return null;
+
+    Node slow = head;
+    Node fast = head;
+
+    // Step 1: Detect cycle
+    while (fast != null && fast.next != null) {
+        slow = slow.next;
+        fast = fast.next.next;
+
+        if (slow == fast) {
+            // Step 2: Find start of the cycle
+            Node start = head;
+            while (start != slow) {
+                start = start.next;
+                slow = slow.next;
+            }
+            return start; // This is the cycle entry point
+        }
+    }
+
+    return null; // No cycle
+}
