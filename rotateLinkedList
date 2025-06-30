@@ -1,3 +1,71 @@
+Rotate first K nodes
+----------------------------------------
+
+Start with the first K people
+
+Break and reattach their hands one by one, so they start pointing backward.
+After reversing K, connect the last person in reversed group to the rest of the line (D → E).
+Return the new head (which is the last person you reversed).
+
+class Node {
+    int value;
+    Node next;
+}
+
+Node reverseKNodes(Node head, int k) {
+    if (head == null || k <= 0) {
+        throw new IllegalArgumentException("Invalid input");
+    }
+
+    // Step 1: Check if we have at least k nodes to reverse
+    Node temp = head;
+    int count = 0;
+    while (temp != null && count < k) {
+        temp = temp.next;
+        count++;
+    }
+
+    if (count < k) {
+        throw new IllegalArgumentException("List is smaller than K");
+    }
+
+    // Step 2: Reverse K nodes
+    Node prev = null;
+    Node current = head;
+    Node next = null;
+    count = 0;
+
+    while (current != null && count < k) {
+        next = current.next;  // Save next node
+        current.next = prev;  // Reverse pointer
+        prev = current;       // Move prev ahead
+        current = next;       // Move current ahead
+        count++;
+    }
+
+    // Step 3: Connect the rest of the list
+    if (head != null) {
+        head.next = current;  // Original head is now the tail of the reversed part
+    }
+
+    // Step 4: Return new head
+    return prev;  // New head is the last node we reversed
+}
+
+
+
+
+
+
+
+
+
+
+
+
+--------------------------------
+Rotate list by K nodes
+--------------------------------
 https://www.youtube.com/watch?v=uT7YI7XbTY8&list=PLgUwDviBIf0rAuz8tVcM0AymmhTRsfaLU&index=24&ab_channel=takeUforward
 
 1) find length and tail nodes
