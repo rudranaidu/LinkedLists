@@ -1,0 +1,58 @@
+Problem statements:
+
+You are given two singly linked lists. You need to merge them alternately, i.e., pick one node from the first list, then one from the second list, then again from the first list, and so on… until one of the lists runs out.
+If one list is longer, the remaining nodes from that list are appended at the end.
+Let’s dry-run a tiny example:
+
+
+head1: 1 → 2 → 3
+head2: 4 → 5 → 6
+
+
+Steps:
+
+p1 = 1, p2 = 4
+Save next1 = 2, next2 = 5
+Do p1.next = p2 → 1 → 4
+Do p2.next = next1 → 4 → 2
+Now: 1 → 4 → 2 → 3 and 5 → 6 remains.
+
+Move: p1 = 2, p2 = 5
+Save next1 = 3, next2 = 6
+Do p1.next = p2 → 2 → 5
+Do p2.next = next1 → 5 → 3
+Now: 1 → 4 → 2 → 5 → 3 → … and 6 remains.
+
+Continue…
+Notice → we are zig-zagging pointers forward:
+First connect p1 → p2
+Then p2 → next1
+This creates the alternate merge
+
+Node mergeAlternateLinkedLists(Node head1, Node head2) {
+    if (head1 == null) return head2;
+    if (head2 == null) return head1;
+
+    Node p1 = head1;
+    Node p2 = head2;
+
+    while (p1 != null && p2 != null) {
+        Node next1 = p1.next; // save remainder of L1
+        Node next2 = p2.next; // save remainder of L2
+
+        p1.next = p2;         // link current L1 node to current L2 node
+
+        // if no more nodes left in L1, leave p2.next as next2 (preserves remainder of L2)
+        if (next1 == null) {
+            break;
+        }
+
+        p2.next = next1;      // link current L2 node back to next node of L1
+
+        // move to next pair
+        p1 = next1;
+        p2 = next2;
+    }
+
+    return head1;
+}
